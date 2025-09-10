@@ -14,6 +14,8 @@ from cooja_cli.commands.motetype import motetype
 def cli():
     """Cooja Simulation Builder CLI."""
 
+import tempfile
+
 @cli.command()
 @click.option("--project-dir", default="generated_sim", help="Project directory for the simulation")
 @click.option("--build/--no-build", default=False, help="Build the simulation CSC file")
@@ -24,17 +26,25 @@ def build_and_run(project_dir, build, run, name, output_dir):
     """Build and/or run the simulation."""
     state = load_state(project_dir)
     sim = Simulation.from_dict(state)
-    csc_path = os.path.join(output_dir, name)
-    #check if sim contains at least one mote type, mote, and script runner plugin
-    if not sim.motetypes:
-        raise click.ClickException("Simulation must contain at least one mote type.")
-    if not any(mt.motes for mt in sim.motetypes):
-        raise click.ClickException("Simulation must contain at least one mote.")
-    if not any(p.plugin_type == PluginType.SCRIPT_RUNNER for p in sim.plugins):
-        raise click.ClickException("Simulation must contain at least one ScriptRunner plugin.")
+
+    output_dir = os.path.abspath(output_dir)
+
+    # Ensure name ends with .csc
+    if not name.lower().endswith(".csc"):
+        name += ".csc"
+
+    # If build=False, use a temporary file for the CSC
     if build:
+        csc_path = os.path.join(output_dir, name)
         save(sim, csc_path)
         click.echo(f"✅ Simulation CSC file saved to {csc_path}")
+    else:
+        # Use a temporary file that will auto-delete
+        temp_file = tempfile.NamedTemporaryFile(suffix=".csc", delete=False)
+        csc_path = temp_file.name
+        save(sim, csc_path)
+        temp_file.close()  # make sure Cooja can open it
+        click.echo(f"ℹ Temporary CSC file created at {csc_path} for running simulation")
 
     if run:
         cooja_dir = state.get("cooja_dir")
@@ -47,10 +57,19 @@ def build_and_run(project_dir, build, run, name, output_dir):
                            check=True, cwd=cooja_dir,
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             click.echo("✅ Simulation ran successfully!")
-        except subprocess.CalledProcessError:
-            click.echo("⚠ Simulation ran with errors.")
-        copy_log_file_to_output(os.path.join(cooja_dir, "COOJA.testlog"),
-                                os.path.join(output_dir, name.replace(".csc", ".log")))
+        except subprocess.CalledProcessError as e:
+            click.echo(f"⚠ Simulation run failed: {e}")
+
+        copy_log_file_to_output(
+            os.path.join(cooja_dir, "COOJA.testlog"),
+            os.path.join(output_dir, name.replace(".csc", ".log"))
+        )
+
+    # Clean up the temporary file if we didn’t build permanently
+    if not build:
+        os.remove(csc_path)
+        click.echo(f"ℹ Temporary CSC file {csc_path} deleted")
+
 
 @cli.command()
 @click.option("--project-dir", default="generated_sim", help="Project directory for the simulation")

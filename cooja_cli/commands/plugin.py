@@ -23,3 +23,13 @@ def add_plugin(project_dir, config):
     sim.add_plugin(log_listener_plugin)
     save_state(sim.to_dict(), project_dir)
     click.echo(f"✅ Added plugins to the simulation")
+
+@plugin.command("remove")
+@click.option("--project-dir", default="generated_sim", help="Project directory for the simulation")
+def remove_plugin(project_dir):
+    """Remove all plugins."""
+    state = load_state(project_dir)
+    sim = Simulation.from_dict(state)
+    sim.plugins.clear()
+    save_state(sim.to_dict(), project_dir)
+    click.echo(f"✅ Removed all plugins from the simulation")
