@@ -47,7 +47,8 @@ def build_and_run(project_dir, build, run, name, output_dir):
         click.echo(f"ℹ Temporary CSC file created at {csc_path} for running simulation")
 
     if run:
-        cooja_dir = state.get("cooja_dir")
+        settings = load_state(project_dir, state_file="settings.json")
+        cooja_dir = settings.get("cooja_dir")
         if not cooja_dir:
             raise click.ClickException("Cooja directory not set. Run 'set-cooja-dir' first.")
         cooja_gradle = os.path.join(cooja_dir, "gradlew")
@@ -76,9 +77,9 @@ def build_and_run(project_dir, build, run, name, output_dir):
 @click.option("--cooja-dir", required=True, type=click.Path(), help="Path to Cooja directory")
 def set_cooja_dir(project_dir, cooja_dir):
     """Set the path to the Cooja installation for this project."""
-    state = load_state(project_dir)
+    state = load_state(project_dir, state_file="settings.json")
     state["cooja_dir"] = os.path.abspath(cooja_dir)
-    save_state(state, project_dir)
+    save_state(state, project_dir, state_file="settings.json")
     click.echo(f"✅ Cooja directory set to: {state['cooja_dir']}")
 
 cli.add_command(motetype)
@@ -103,3 +104,6 @@ if __name__ == "__main__":
 
 
 # all commands should have a print method
+
+
+# fix bug where cooja-dir is not saved properly after adding a mote type or mote

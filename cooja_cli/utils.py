@@ -9,15 +9,15 @@ from cooja_cli.parts.simulation.simulation import Simulation
 
 STATE_FILE = "sim_state.json"
 
-def save_state(state, project_dir):
+def save_state(state, project_dir, state_file=STATE_FILE):
     os.makedirs(project_dir, exist_ok=True)
-    with open(os.path.join(project_dir, STATE_FILE), "w") as f:
+    with open(os.path.join(project_dir, state_file), "w") as f:
         json.dump(state, f, indent=2)
 
-def load_state(project_dir):
-    state_path = os.path.join(project_dir, STATE_FILE)
+def load_state(project_dir, state_file=STATE_FILE):
+    state_path = os.path.join(project_dir, state_file)
     if not os.path.exists(state_path):
-        raise click.ClickException(f"No simulation initialized in {project_dir}")
+        return {}
     with open(state_path) as f:
         return json.load(f)
 
