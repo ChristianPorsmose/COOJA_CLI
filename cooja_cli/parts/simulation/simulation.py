@@ -56,13 +56,15 @@ class Simulation(Part):
     
     @classmethod
     def from_dict(cls, data: dict) -> "Simulation":
+        if not data:
+            return None
         sim = cls(
             motedelay_us=data.get("motedelay_us", 100000),
             title=data.get("title", "Simulation"),
         )
         # reconstruct subcomponents
-        sim.radio_medium = RadioMedium.from_dict(data["radio_medium"])
-        sim.event = Event.from_dict(data["event"])
+        sim.radio_medium = RadioMedium.from_dict(data.get("radio_medium"))
+        sim.event = Event.from_dict(data.get("event"))
 
         sim.plugins = [Plugin.from_dict(p) for p in data.get("plugins", [])]
         sim.motetypes = [MoteType.from_dict(mt) for mt in data.get("motetypes", [])]

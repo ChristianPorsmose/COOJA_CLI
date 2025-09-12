@@ -5,17 +5,19 @@ import json
 import subprocess
 import click
 
+import cooja_cli
 from cooja_cli.parts.simulation.simulation import Simulation
 
+PROJECT_DIR = os.path.abspath(os.path.dirname(cooja_cli.__file__))
 STATE_FILE = "sim_state.json"
 
-def save_state(state, project_dir, state_file=STATE_FILE):
-    os.makedirs(project_dir, exist_ok=True)
-    with open(os.path.join(project_dir, state_file), "w") as f:
+def save_state(state, state_file=STATE_FILE):
+    os.makedirs(PROJECT_DIR, exist_ok=True)
+    with open(os.path.join(PROJECT_DIR, state_file), "w") as f:
         json.dump(state, f, indent=2)
 
-def load_state(project_dir, state_file=STATE_FILE):
-    state_path = os.path.join(project_dir, state_file)
+def load_state(state_file=STATE_FILE):
+    state_path = os.path.join(PROJECT_DIR, state_file)
     if not os.path.exists(state_path):
         return {}
     with open(state_path) as f:
@@ -35,3 +37,4 @@ def copy_log_file_to_output(log_file: str, output_file: str):
         click.echo(f"✅ Log file copied to {output_file}")
     except Exception as e:
         click.echo(f"⚠ Failed to copy log file: {e}")
+
