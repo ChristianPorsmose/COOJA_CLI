@@ -1,5 +1,5 @@
+import random
 import click
-
 from cooja_cli.parts.interface.interface_configs import MoteIDConfig, PositionConfig
 from cooja_cli.parts.simulation.simulation import Simulation
 from cooja_cli.parts.mote.mote import Mote
@@ -31,6 +31,30 @@ def add_mote(mote_type_id, x, y, z, mote_id):
     mote_type.add_mote(mote)
     save_state(sim.to_dict())
     click.echo(f"✅ Added mote at position ({x}, {y}, {z}) to mote type ID {mote_type_id}")
+
+
+@mote.command("add_multiple")
+@click.option("-mtid", "--mote-type-id", required=True, type=int, help="Mote type ID to which the mote will be added")
+@click.option("-n", "--number", default=1, type=int, help="number of motes")
+def add_multiple_motes(mote_type_id, number):
+    """Place n random placed motes"""
+    state = load_state()
+    sim = Simulation.from_dict(state)
+    mote_type = next((mt for mt in sim.motetypes if mt.id == mote_type_id), None)
+    max_n = max_n = max(mote_type.motes, key=lambda x: x.get_id() or -1).get_id()
+    if not mote_type:
+            raise click.ClickException(f"Mote type ID {mote_type_id} not found.")
+    for i in range(number):
+        x=random.random()
+        y=random.random()
+        z=random.random()
+        position_config = PositionConfig(x,y,z)
+        id_config = MoteIDConfig(i + max_n + 1)
+        mote = Mote(configs=[position_config, id_config])
+        mote_type.add_mote(mote)
+        click.echo(f"✅ Added mote at position ({x}, {y}, {z}) to mote type ID {mote_type_id}")
+    save_state(sim.to_dict())
+         
 
 @mote.command("remove")
 @click.option("-mtid", "--mote-type-id", required=True, type=int, help="Mote type ID from which to remove the mote")

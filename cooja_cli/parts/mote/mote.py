@@ -1,5 +1,6 @@
 from typing import List, Optional
 from cooja_cli.parts.interface.interface_config_base import InterfaceConfig
+from cooja_cli.parts.interface.interface_configs import MoteIDConfig
 from cooja_cli.parts.part import Part
 import xml.etree.ElementTree as ET
 
@@ -9,6 +10,12 @@ class Mote(Part):
 
     def add_interface(self, mote_interface : InterfaceConfig):
         self.configs.append(mote_interface)
+
+    def get_id(self):
+        id_config = next((config for config in self.configs if isinstance(config, MoteIDConfig)), None)
+        if id_config:
+            return id_config.mote_id
+
 
     def to_xml(self):
         mote_elem = ET.Element("mote")

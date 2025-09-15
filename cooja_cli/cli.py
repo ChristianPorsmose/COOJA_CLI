@@ -29,9 +29,10 @@ cli.add_command(sim)
 if __name__ == "__main__":
     cli()
 
-# TO ADD: remove-plugin, list-plugins
-# TO ADD: configure-mote (change position, id, etc), configure-plugin (e.g., change script file)
-# TO ADD: set-radio-medium (e.g., UDGM, etc), set-simulation-params (e.g., motedelay_us, title, etc)
+# TO ADD: list-plugins
+# TO ADD: configure-mote (change position, id, etc), configure-plugin (e.g., change script file) -> postponed
+# TO ADD: set-radio-medium (e.g., UDGM, etc), 
+# TO ADD: set-simulation-params (e.g., motedelay_us, title, etc)
 # TO ADD: add other interfaces (e.g., IPAddressConfig, etc)
 # TO ADD: add other plugins (e.g., LogListenerConfig, etc)
 # TO ADD: validation (e.g., check if Cooja dir is valid, check if C file exists, etc)
