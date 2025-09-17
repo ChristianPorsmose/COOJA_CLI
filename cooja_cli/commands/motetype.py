@@ -14,10 +14,10 @@ def motetype():
 @motetype.command("add")
 @click.option("-c", "--c-file", required=True, help="Path to the C source file for the mote firmware")
 @click.option("-m", "--make-dir", default=None, help="Makefile path")
-@click.option("-mn","--makefile-name", default=None, help="Makefile name")
+@click.option("-mn","--makefile-name", default="Makefile", help="Makefile name")
 @click.option("-d", "--description", default=None, help="Description for the mote type")
 @click.option("-id", "--mote-id", default=None, help="Mote ID for the new mote type")
-@click.option("-cf", "--compile-flags", default="", help="Extra compile flags")
+@click.option("-cf", "--compile-flags", default="", help="Extra compile flags, comma-separated")
 def add_mote_type(c_file, make_dir,makefile_name, description, mote_id,compile_flags):
     """Add a new mote type."""
     state = load_state()
@@ -27,7 +27,8 @@ def add_mote_type(c_file, make_dir,makefile_name, description, mote_id,compile_f
     abs_path = os.path.abspath(c_file)
     build_dir = make_dir or os.path.dirname(abs_path)
     firmware_path = abs_path.replace(".c", ".sky")
-    flags_str = f'CFLAGS="{compile_flags}"' if compile_flags else ""
+    flags_list = [flag.strip() for flag in compile_flags.split(",") if flag.strip()]
+    flags_str = " ".join(flags_list)
     sky_type = MoteType(
         id=mote_id,
         description=f"Sky Mote Type from {description}",
