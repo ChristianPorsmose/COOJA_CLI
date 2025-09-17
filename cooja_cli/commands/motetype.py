@@ -17,7 +17,8 @@ def motetype():
 @click.option("-mn","--makefile-name", default=None, help="Makefile name")
 @click.option("-d", "--description", default=None, help="Description for the mote type")
 @click.option("-id", "--mote-id", default=None, help="Mote ID for the new mote type")
-def add_mote_type(c_file, make_dir,makefile_name, description, mote_id):
+@click.option("-cf", "--compile-flags", default="", help="Extra compile flags")
+def add_mote_type(c_file, make_dir,makefile_name, description, mote_id,compile_flags):
     """Add a new mote type."""
     state = load_state()
     sim = Simulation.from_dict(state)
@@ -26,13 +27,14 @@ def add_mote_type(c_file, make_dir,makefile_name, description, mote_id):
     abs_path = os.path.abspath(c_file)
     build_dir = make_dir or os.path.dirname(abs_path)
     firmware_path = abs_path.replace(".c", ".sky")
+    flags_str = f'CFLAGS="{compile_flags}"' if compile_flags else ""
     sky_type = MoteType(
         id=mote_id,
         description=f"Sky Mote Type from {description}",
         source=abs_path,
         firmware=firmware_path,
         command=f"make -f {makefile_name} -C {build_dir} TARGET=sky clean \
-            \n make -f {makefile_name} -C {build_dir} -j$(CPUS) TARGET=sky",
+            \n make -f {makefile_name} -C {build_dir} -j$(CPUS) TARGET=sky {flags_str}",
         interfaces=list(InterfaceType)
     )
     sim.add_motetype(sky_type)
