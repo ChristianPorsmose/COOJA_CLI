@@ -111,3 +111,20 @@ def run(name:str):
     os.remove(csc_path)
     click.echo(f"ℹ Temporary CSC file {csc_path} deleted")
 
+
+# EXTEND TO OTHER RADIO TYPES
+@sim.command("radio_set")
+@click.option("-tx", "--tx_succes", default=1, help="succes transmit ratio")
+@click.option("-rx", "--rx_succes", default=1, help="succes receive ratio")
+@click.option("-i", "--interference", default=100, help="interference range")
+@click.option("-t", "--transmit_range", default=50, help="transmit range")
+def radio_set(tx_succes, rx_succes, interference, transmit_range):
+    """ Set the radio settings """
+    state = load_state()
+    sim = Simulation.from_dict(state)
+    sim.radio_medium.success_ratio_tx = tx_succes
+    sim.radio_medium.success_ratio_rx = rx_succes
+    sim.radio_medium.interference_range = interference
+    sim.radio_medium.transmitting_range = transmit_range
+    save_state(sim.to_dict())
+    click.echo(f"✅ Changed the radio settings")
