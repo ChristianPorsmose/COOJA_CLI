@@ -42,6 +42,7 @@ if __name__ == "__main__":
 # create group for simulation commands
 # create a list all motes, mote types, and plugins in the simulation
 
+# TODO : add disturber motes
 
 # all commands should have a print method
 

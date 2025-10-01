@@ -25,6 +25,7 @@ class InterfaceConfig(Part):
             MSPClockConfig,
             MSPRadioConfig,
             MSPSerialConfig,
+            AbstractIdConfig
         )
 
         if iface_type == InterfaceType.POSITION.value:
@@ -39,5 +40,7 @@ class InterfaceConfig(Part):
             return MSPRadioConfig.from_dict(data)
         elif iface_type == InterfaceType.MSP_SERIAL.value:
             return MSPSerialConfig.from_dict(data)
+        elif iface_type == InterfaceType.ABSTRACT_ID.value:
+            return AbstractIdConfig.from_dict(data)
         else:
             raise ValueError(f"Unknown interface type: {iface_type}")

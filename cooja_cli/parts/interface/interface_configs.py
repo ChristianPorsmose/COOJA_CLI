@@ -138,3 +138,27 @@ class MSPSerialConfig(InterfaceConfig):
     @classmethod
     def from_dict(cls, data: dict) -> "MSPSerialConfig":
         return cls()
+
+
+class AbstractIdConfig(InterfaceConfig):
+    def __init__(self, mote_id: int):
+        super().__init__(InterfaceType.ABSTRACT_ID)
+        self.mote_id = mote_id
+
+    def to_xml(self):
+        elem = ET.Element("interface_config")
+        elem.text = self.iface_type.value
+        ET.SubElement(elem, "id").text = str(self.mote_id)
+        return elem
+    
+    def to_dict(self):
+        return {
+            "type": self.iface_type.value,
+            "abstract_id": self.mote_id
+        }
+    
+    @classmethod
+    def from_dict(cls, data: dict) -> "MoteIDConfig":
+        return cls(
+            mote_id=data.get("abstract_id", 1)
+        )

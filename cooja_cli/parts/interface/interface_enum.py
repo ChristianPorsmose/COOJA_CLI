@@ -16,3 +16,4 @@ class InterfaceType(Enum):
     MSP_LED = "org.contikios.cooja.mspmote.interfaces.MspLED"
     MSP_DEBUG = "org.contikios.cooja.mspmote.interfaces.MspDebugOutput"
     SKY_TEMP = "org.contikios.cooja.mspmote.interfaces.SkyTemperature"
+    ABSTRACT_ID = " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID"

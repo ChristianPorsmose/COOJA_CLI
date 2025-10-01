@@ -1,0 +1,187 @@
+{
+  "title": "Simulation",
+  "motedelay_us": 100000,
+  "radio_medium": {
+    "transmitting_range": 50.0,
+    "interference_range": 100,
+    "success_ratio_tx": 1,
+    "success_ratio_rx": 1
+  },
+  "event": {
+    "log_output": 40000
+  },
+  "plugins": [],
+  "motetypes": [
+    {
+      "id": 1,
+      "description": "",
+      "source": "/Users/chrodn/Projects/COOJA_CLI/cooja_cli/__init__.py",
+      "firmware": "/Users/chrodn/Projects/COOJA_CLI/cooja_cli/__init__.py",
+      "command": "make -f Makefile -C /Users/chrodn/Projects/COOJA_CLI/cooja_cli TARGET=sky clean             \n make -f Makefile -C /Users/chrodn/Projects/COOJA_CLI/cooja_cli -j$(CPUS) TARGET=sky ",
+      "interfaces": [
+        "org.contikios.cooja.interfaces.Position",
+        "org.contikios.cooja.interfaces.IPAddress",
+        "org.contikios.cooja.interfaces.Mote2MoteRelations",
+        "org.contikios.cooja.interfaces.MoteAttributes",
+        "org.contikios.cooja.mspmote.interfaces.MspClock",
+        "org.contikios.cooja.mspmote.interfaces.MspMoteID",
+        "org.contikios.cooja.mspmote.interfaces.SkyButton",
+        "org.contikios.cooja.mspmote.interfaces.SkyFlash",
+        "org.contikios.cooja.mspmote.interfaces.SkyCoffeeFilesystem",
+        "org.contikios.cooja.mspmote.interfaces.Msp802154Radio",
+        "org.contikios.cooja.mspmote.interfaces.MspSerial",
+        "org.contikios.cooja.mspmote.interfaces.MspLED",
+        "org.contikios.cooja.mspmote.interfaces.MspDebugOutput",
+        "org.contikios.cooja.mspmote.interfaces.SkyTemperature",
+        " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID"
+      ],
+      "motes": []
+    },
+    {
+      "id": 2,
+      "identifier": "apptype2",
+      "motes": [
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 38,
+              "y": 41,
+              "z": 85
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 772
+            }
+          ]
+        },
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 62,
+              "y": 3,
+              "z": 92
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 297
+            }
+          ]
+        },
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 39,
+              "y": 1,
+              "z": 91
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 3022
+            }
+          ]
+        },
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 61,
+              "y": 31,
+              "z": 59
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 4887
+            }
+          ]
+        },
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 11,
+              "y": 10,
+              "z": 92
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 4399
+            }
+          ]
+        },
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 70,
+              "y": 35,
+              "z": 26
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 899
+            }
+          ]
+        },
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 32,
+              "y": 15,
+              "z": 94
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 2037
+            }
+          ]
+        },
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 56,
+              "y": 9,
+              "z": 99
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 4519
+            }
+          ]
+        },
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 69,
+              "y": 35,
+              "z": 22
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 3397
+            }
+          ]
+        },
+        {
+          "configs": [
+            {
+              "type": "org.contikios.cooja.interfaces.Position",
+              "x": 23,
+              "y": 59,
+              "z": 66
+            },
+            {
+              "type": " org.contikios.cooja.motes.AbstractApplicationMoteType$SimpleMoteID",
+              "abstract_id": 272
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

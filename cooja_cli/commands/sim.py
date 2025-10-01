@@ -29,10 +29,10 @@ def list_items(detailed):
     """List all mote types, motes, and plugins in the simulation."""
     state = load_state()
     sim = Simulation.from_dict(state)
-
+    
     click.echo("Mote Types:")
     for mt in sim.motetypes:
-        click.echo(f"ID: {mt.id}, Description: {mt.description}, Source: {mt.source}")
+        click.echo(f"ID: {mt.id}")
         for idx, mote in enumerate(mt.motes, start=1):
             pos : PositionConfig = next((cfg for cfg in mote.configs if cfg.iface_type == InterfaceType.POSITION), None)
             mid : MoteIDConfig = next((cfg for cfg in mote.configs if cfg.iface_type == InterfaceType.MSP_MOTE_ID), None)
@@ -110,3 +110,4 @@ def run(name:str):
     )
     os.remove(csc_path)
     click.echo(f"ℹ Temporary CSC file {csc_path} deleted")
+

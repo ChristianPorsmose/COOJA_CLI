@@ -2,7 +2,7 @@ from cooja_cli.parts.event.event import Event
 from typing import List
 import xml.etree.ElementTree as ET
 
-from cooja_cli.parts.motetype.motetype import MoteType
+from cooja_cli.parts.motetype.motetype import MoteType, MoteTypeDisturber, MoteTypeSky
 from cooja_cli.parts.part import Part
 from cooja_cli.parts.plugin.plugin import Plugin
 from cooja_cli.parts.radio_medium.radio_medium import RadioMedium
@@ -67,6 +67,10 @@ class Simulation(Part):
         sim.event = Event.from_dict(data.get("event"))
 
         sim.plugins = [Plugin.from_dict(p) for p in data.get("plugins", [])]
-        sim.motetypes = [MoteType.from_dict(mt) for mt in data.get("motetypes", [])]
+        for mt_data in data.get("motetypes", []):
+            if "source" in mt_data:  # Sky mote has source/firmware/command
+                sim.motetypes.append(MoteTypeSky.from_dict(mt_data))
+            elif "identifier" in mt_data:  # Disturber has identifier
+                sim.motetypes.append(MoteTypeDisturber.from_dict(mt_data))
 
         return sim

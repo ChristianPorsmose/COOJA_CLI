@@ -41,13 +41,13 @@ def add_multiple_motes(mote_type_id, number):
     state = load_state()
     sim = Simulation.from_dict(state)
     mote_type = next((mt for mt in sim.motetypes if mt.id == mote_type_id), None)
-    max_n = max_n = max(mote_type.motes, key=lambda x: x.get_id() or -1).get_id()
+    max_n = max(mote_type.motes, key=lambda x: x.get_id() or 1).get_id() 
     if not mote_type:
             raise click.ClickException(f"Mote type ID {mote_type_id} not found.")
     for i in range(number):
-        x=random.random()
-        y=random.random()
-        z=random.random()
+        x=random.randint(0,100)
+        y=random.randint(0,100)
+        z=random.randint(0,100)
         position_config = PositionConfig(x,y,z)
         id_config = MoteIDConfig(i + max_n + 1)
         mote = Mote(configs=[position_config, id_config])

@@ -30,7 +30,6 @@ class Mote(Part):
     
     @classmethod
     def from_dict(cls, data: dict) -> "Mote":
-        configs=[InterfaceConfig.from_dict(cfg) for cfg in data.get("configs", [])]
         return cls(
             configs=[InterfaceConfig.from_dict(cfg) for cfg in data.get("configs", [])]
         )
